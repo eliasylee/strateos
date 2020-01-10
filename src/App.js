@@ -1,26 +1,70 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { Component } from 'react'
+import { connect } from 'react-redux'
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+import { fetchQPCRData } from './actions/qpcr-actions'
+import {
+  toggleWell,
+  toggleRow,
+  toggleColumn,
+  toggleAll
+} from './actions/well-actions'
+
+import Grid from './components/Grid'
+import Table from './components/Table'
+
+import './App.scss'
+
+const mapStateToProps = ({
+  wells,
+  selectedWells,
+  allWellsSelected
+}) => ({
+  wells,
+  selectedWells,
+  allWellsSelected
+})
+
+const mapDispatchToProps = dispatch => ({
+  fetchQPCRData: () => dispatch(fetchQPCRData),
+  generateToggleWell: (rowIndex, columnIndex) => () => dispatch(toggleWell(rowIndex, columnIndex)),
+  generateToggleRow: rowIndex => () => dispatch(toggleRow(rowIndex)),
+  generateToggleColumn: columnIndex => () => dispatch(toggleColumn(columnIndex)),
+  toggleAll: () => dispatch(toggleAll)
+})
+
+class App extends Component {
+  componentDidMount() {
+    this.props.fetchQPCRData()
+  }
+
+  render() {
+    const {
+      wells,
+      selectedWells,
+      allWellsSelected,
+      generateToggleWell,
+      generateToggleRow,
+      generateToggleColumn,
+      toggleAll
+    } = this.props
+
+    return <div className='App'>
+      <Grid
+        wells={wells}
+        selectedWells={selectedWells}
+        allWellsSelected={allWellsSelected}
+        generateToggleWell={generateToggleWell}
+        generateToggleRow={generateToggleRow}
+        generateToggleColumn={generateToggleColumn}
+        toggleAll={toggleAll} />
+      <Table
+        wells={wells}
+        selectedWells={selectedWells} />
     </div>
-  );
+  }
 }
 
-export default App;
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(App)

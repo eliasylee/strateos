@@ -1,0 +1,11 @@
+.grid-header {
+  display: flex;
+
+  .checkbox {
+    cursor: pointer;
+    margin: 16px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+}
