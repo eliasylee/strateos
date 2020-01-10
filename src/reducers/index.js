@@ -1,4 +1,5 @@
 import { UPDATE_STATE } from '../constants/redux-constants'
+import { DEFAULT_THRESHOLD_VALUE } from '../constants/qpcr-constants'
 
 const DEFAULT_STATE = {
   // wells: [ [ row ], [ row ], ..., [ row ] ]
@@ -12,7 +13,13 @@ const DEFAULT_STATE = {
   // selectedColumns: { column indices : true / false }
   selectedColumns: {},
   // allWellsSelected: true / false
-  allWellsSelected: false
+  allWellsSelected: false,
+  // threshold to create
+  threshold: '',
+  // list of thresholds
+  thresholds: [DEFAULT_THRESHOLD_VALUE],
+  // currently selected threshold
+  currentThreshold: 0
 }
 
 export default (state = DEFAULT_STATE, action) => {

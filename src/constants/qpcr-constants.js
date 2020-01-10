@@ -1,1 +1,1 @@
-export const THRESHOLD_VALUE = 104
+export const DEFAULT_THRESHOLD_VALUE = 104

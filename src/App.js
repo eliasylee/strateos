@@ -8,20 +8,31 @@ import {
   toggleColumn,
   toggleAll
 } from './actions/well-actions'
+import {
+  updateThreshold,
+  createThreshold,
+  changeCurrentThreshold
+} from './actions/threshold-actions'
 
 import Grid from './components/Grid'
-import Table from './components/Table'
+import Interface from './components/Interface'
 
 import './App.scss'
 
 const mapStateToProps = ({
   wells,
   selectedWells,
-  allWellsSelected
+  allWellsSelected,
+  threshold,
+  thresholds,
+  currentThreshold
 }) => ({
   wells,
   selectedWells,
-  allWellsSelected
+  allWellsSelected,
+  threshold,
+  thresholds,
+  currentThreshold
 })
 
 const mapDispatchToProps = dispatch => ({
@@ -29,7 +40,10 @@ const mapDispatchToProps = dispatch => ({
   generateToggleWell: (rowIndex, columnIndex) => () => dispatch(toggleWell(rowIndex, columnIndex)),
   generateToggleRow: rowIndex => () => dispatch(toggleRow(rowIndex)),
   generateToggleColumn: columnIndex => () => dispatch(toggleColumn(columnIndex)),
-  toggleAll: () => dispatch(toggleAll)
+  toggleAll: () => dispatch(toggleAll),
+  updateThreshold: e => dispatch(updateThreshold(e)),
+  createThreshold: () => dispatch(createThreshold),
+  generateOnClickThreshold: index => () => dispatch(changeCurrentThreshold(index))
 })
 
 class App extends Component {
@@ -45,7 +59,13 @@ class App extends Component {
       generateToggleWell,
       generateToggleRow,
       generateToggleColumn,
-      toggleAll
+      toggleAll,
+      threshold,
+      thresholds,
+      currentThreshold,
+      updateThreshold,
+      createThreshold,
+      generateOnClickThreshold
     } = this.props
 
     return <div className='App'>
@@ -57,9 +77,15 @@ class App extends Component {
         generateToggleRow={generateToggleRow}
         generateToggleColumn={generateToggleColumn}
         toggleAll={toggleAll} />
-      <Table
+      <Interface
         wells={wells}
-        selectedWells={selectedWells} />
+        selectedWells={selectedWells}
+        threshold={threshold}
+        thresholds={thresholds}
+        currentThreshold={currentThreshold}
+        updateThreshold={updateThreshold}
+        createThreshold={createThreshold}
+        generateOnClickThreshold={generateOnClickThreshold} />
     </div>
   }
 }
